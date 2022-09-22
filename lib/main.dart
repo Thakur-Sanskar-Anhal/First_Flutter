@@ -50,8 +50,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Color? selectedColor;
 
+  @override
+  void initState() {
+    _getStoredColor();
+    super.initState();
+  }
+
+  void _getStoredColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? colorName = prefs.getString('color');
+    setState(() {
+      selectedColor = colors[colorName];
+    });
+  }
+
   void _setColor(String colorName, Color color) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('color', colorName);
     setState(() {
       selectedColor = color;
