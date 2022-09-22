@@ -49,31 +49,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Color? selectedColor;
 
+  void _setColor(String colorName, Color color) {
+    setState(() {
+      selectedColor = color;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: selectedColor ?? Colors.black,
       ),
-      body: Center(
-        child: Column(
+      body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+          children: [
+            for (var entry in colors.entries)
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: entry.value, minimumSize: Size(300, 60)),
+                    child: Text(''),
+                    onPressed: () => _setColor(entry.key, entry.value),
+                  ))
+          ]),
     );
   }
 }
