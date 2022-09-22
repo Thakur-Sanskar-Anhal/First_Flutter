@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,7 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Color? selectedColor;
 
-  void _setColor(String colorName, Color color) {
+  void _setColor(String colorName, Color color) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance;
+    await prefs.setString('color', colorName);
     setState(() {
       selectedColor = color;
     });
@@ -58,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 34, 34, 34),
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: selectedColor ?? Colors.black,
